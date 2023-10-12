@@ -1,0 +1,454 @@
+package com.unitech.schoolsystem
+
+import com.neovisionaries.i18n.CountryCode
+import com.unitech.schoolsystem.database.SchoolDb
+import com.unitech.schoolsystem.model.School
+import com.unitech.schoolsystem.model.SchoolType
+import javafx.beans.property.SimpleIntegerProperty
+import javafx.collections.FXCollections
+import javafx.collections.ObservableList
+import javafx.fxml.FXML
+import javafx.fxml.Initializable
+import javafx.scene.control.*
+import javafx.scene.control.cell.PropertyValueFactory
+import javafx.scene.image.ImageView
+import java.net.URL
+import java.sql.Connection
+import java.sql.PreparedStatement
+import java.sql.ResultSet
+import java.sql.SQLException
+import java.sql.Statement
+import java.util.*
+
+class SchoolEntryController : Initializable {
+
+    @FXML
+    private var address = TextArea()
+
+    @FXML
+    private lateinit var browseButton: Button
+
+    @FXML
+    private var city = TextField()
+
+    @FXML
+    private var contactNumber = TextField()
+
+    @FXML
+    private var country = ComboBox<String>()
+
+    @FXML
+    private var email = TextField()
+
+    @FXML
+    private var fax =  TextField()
+
+    @FXML
+    private lateinit var removeButton: Button
+
+    @FXML
+    private lateinit var schooSaveButton: Button
+
+    @FXML
+    private lateinit var schoolDelButton: Button
+
+    @FXML
+    private lateinit var schoolImage: ImageView
+
+    @FXML
+    private var schoolName = TextField()
+
+    @FXML
+    private lateinit var schoolNewButton: Button
+
+    @FXML
+    private var schoolTableView = TableView<School>()
+
+    @FXML
+    private var schoolTableNameColumn = TableColumn<School, String>()
+
+    @FXML
+    private var schoolTableTypeColumn = TableColumn<School, String>()
+
+    @FXML
+    private var schoolType = ComboBox<String>()
+
+    @FXML
+    private lateinit var schoolUpdateButton: Button;
+
+    @FXML
+    private var tableAddressColumn = TableColumn<School, String>()
+
+    @FXML
+    private var schoolRowNumberColumn = TableColumn<School, Int>()
+
+    @FXML
+    private var tableCityColumn = TableColumn<School, String>()
+
+    @FXML
+    private var tableContactNoColumn = TableColumn<School, String>()
+
+    @FXML
+    private var tableCountryColumn = TableColumn<School, String>()
+
+    @FXML
+    private var tableEmailColumn = TableColumn<School, String>()
+
+    @FXML
+    private var tableFaxColumn = TableColumn<School, String>()
+
+    @FXML
+    private var tableWebsiteColumn = TableColumn<School, String>()
+
+    @FXML
+    private var website = TextField()
+
+    private lateinit var schoolEntryDataList: ObservableList<School>
+
+    // Database Tools
+    private lateinit var connection: Connection
+    private lateinit var preparedStatement: PreparedStatement
+    private lateinit var statement: Statement
+    private lateinit var resultSet: ResultSet
+
+    private var connectToDb = SchoolDb()
+
+    private lateinit var schoolAlert: Alert
+
+    /*private var school =  schoolName.text
+    private var type = schoolType.selectionModel.selectedItem
+    private val schoolCity = city.text
+    private val schoolCountry = country.selectionModel.selectedItem
+    private val contactNum = contactNumber.text
+    private val schoolAddress = address.text
+    private val schoolEmail = email.text
+    private val schoolFax = fax.text
+    private val schoolWeb = website.text
+
+     */
+
+    @FXML
+    fun onClickCountryDropDown() {
+
+        // Get a list of all Countries
+        val countryList = CountryCode.values()
+            .map { it.getName() }
+            .toList()
+        // Create an ObservableList and add the country names
+
+        // Set Items of the comboBox to the observableList
+        country.items.addAll(countryList)
+    }
+
+    @FXML
+    fun onClickSchoolTypeComboBox() {
+        val connectToDb = SchoolDb()
+        val schoolTypeSql = "SELECT schooltype FROM school_type "
+        connection = connectToDb.connectionDb()!!
+
+        try {
+            preparedStatement = connection.prepareStatement(schoolTypeSql)
+            resultSet = preparedStatement.executeQuery()
+
+            // Create list to store items
+            val schoolTypeList = mutableListOf<String>()
+
+            // Populate the list with data
+            while (resultSet.next()) {
+                val schoolTypeName = resultSet.getString("schooltype")
+                schoolTypeList.add(schoolTypeName)
+            }
+            schoolType.items.addAll(schoolTypeList)
+
+        } catch (sqlException: SQLException) {
+            sqlException.printStackTrace()
+        }
+
+
+    }
+
+    @FXML
+    fun onClickSchoolSaveButton() {
+        //Database initialisation
+        val schoolEntryQuery = "INSERT INTO school_data(" +
+                "school_name, school_typ, city, country_name, contact_number, address, email, fax, website)" +
+                "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)"
+        connection = connectToDb.connectionDb()!!
+
+        val school =  schoolName.text
+        val type = schoolType.selectionModel.selectedItem
+        val schoolCity = city.text
+        val schoolCountry = country.selectionModel.selectedItem
+        val contactNum = contactNumber.text
+        val schoolAddress = address.text
+        val schoolEmail = email.text
+        val schoolFax = fax.text
+        val schoolWeb = website.text
+
+        try {
+
+            if (school.isEmpty() ||
+                schoolCity.isEmpty() ||
+                contactNum.isEmpty() ||
+                schoolAddress.isEmpty() ||
+                schoolEmail.isEmpty() ||
+                schoolFax.isEmpty() || schoolWeb.isEmpty()
+            ) {
+
+                // Alert Box
+                schoolAlert = Alert(Alert.AlertType.ERROR)
+                schoolAlert.title = "Empty Fields"
+                schoolAlert.headerText = null
+                schoolAlert.contentText = "Please fill required Fields"
+                schoolAlert.showAndWait()
+
+            } else {
+
+                // Prevent Addition of the same School Type
+                val schoolTypeCheck = "SELECT school_typ, city FROM school_data " +
+                        "WHERE school_typ = '$type' AND city = '$schoolCity'"
+                preparedStatement = connection.prepareStatement(schoolTypeCheck)
+                resultSet = preparedStatement.executeQuery()
+                if (resultSet.next()) {
+                    // Check
+                    schoolAlert = Alert(Alert.AlertType.ERROR)
+                    schoolAlert.title = "Existed School Type"
+                    schoolAlert.headerText = null
+                    schoolAlert.contentText = "You cannot Have two schools of the same type\n" +
+                            "in the same city"
+                    schoolAlert.showAndWait()
+                } else {
+
+                    preparedStatement = connection.prepareStatement(schoolEntryQuery)
+                    preparedStatement.setString(1, school)
+                    preparedStatement.setString(2, type)
+                    preparedStatement.setString(3, schoolCity)
+                    preparedStatement.setString(4, schoolCountry)
+                    preparedStatement.setString(5, contactNum)
+                    preparedStatement.setString(6, schoolAddress)
+                    preparedStatement.setString(7, schoolEmail)
+                    preparedStatement.setString(8, schoolFax)
+                    preparedStatement.setString(9, schoolWeb)
+
+                    preparedStatement.executeUpdate()
+
+                    schoolAlert = Alert(Alert.AlertType.INFORMATION)
+                    schoolAlert.title = "School Information"
+                    schoolAlert.headerText = null
+                    schoolAlert.contentText = "School Type Successfully Added"
+                    schoolAlert.showAndWait()
+
+                    //Show Table
+                    availableSchoolEntryList()
+
+                    // Clear data
+                    clearTextFieldData()
+                }
+            }
+
+        } catch (sqlException: SQLException) {
+            sqlException.printStackTrace()
+        }
+
+    }
+
+
+    fun onClickSchoolDeleteButton() {
+
+        val school =  schoolName.text
+        val type = schoolType.selectionModel.selectedItem
+        val schoolCity = city.text
+        val schoolCountry = country.selectionModel.selectedItem
+        val contactNum = contactNumber.text
+        val schoolAddress = address.text
+        val schoolEmail = email.text
+        val schoolFax = fax.text
+        val schoolWeb = website.text
+
+        val dbConnection = SchoolDb()
+        val deleteSchoolQuery = "" +
+                " DELETE FROM school_data " +
+                " WHERE school_typ = '$type' AND city = '$city' "
+
+        connection = dbConnection.connectionDb()!!
+
+
+        try {
+            //Check Empty Fields
+            if (school.isEmpty() || schoolCity.isEmpty() ||
+                contactNum.isEmpty() || schoolAddress.isEmpty() ||
+                schoolEmail.isEmpty() || schoolFax.isEmpty() || schoolWeb.isEmpty()
+            ) {
+                schoolAlert = Alert(Alert.AlertType.ERROR)
+                schoolAlert.title = "Empty School Type"
+                schoolAlert.headerText = null
+                schoolAlert.contentText = "Please Select School to delete"
+                schoolAlert.showAndWait()
+            } else {
+
+                // Prevent Addition of the same School Type
+                val schoolDataCheck =
+                    "SELECT school_typ, city " +
+                            " FROM school_data " +
+                            " WHERE school_typ = '$type' AND city = '$city' "
+                preparedStatement = connection.prepareStatement(schoolDataCheck)
+                resultSet = preparedStatement.executeQuery()
+
+                if (resultSet.next()) {
+
+                    schoolAlert = Alert(Alert.AlertType.CONFIRMATION)
+                    schoolAlert.title = "Delete School"
+                    schoolAlert.headerText = "You want to delete School"
+                    schoolAlert.contentText = "Are you sure?"
+
+                    val option: Optional<ButtonType> = schoolAlert.showAndWait()
+                    if (option.get() == ButtonType.OK) {
+                        statement = connection.createStatement()
+                        statement.executeUpdate(deleteSchoolQuery)
+
+                        schoolAlert = Alert(Alert.AlertType.INFORMATION);
+                        schoolAlert.title = "Deleted School"
+                        schoolAlert.headerText = null;
+                        schoolAlert.contentText = "Successfully Deleted";
+                        schoolAlert.showAndWait()
+
+                        availableSchoolEntryList()
+                        clearTextFieldData()
+                    }
+                } else {
+                    schoolAlert = Alert(Alert.AlertType.ERROR)
+                    schoolAlert.title = "Existed School Type"
+                    schoolAlert.headerText = null
+                    schoolAlert.contentText = "School with that data does not Exists"
+                    schoolAlert.showAndWait()
+                    clearTextFieldData()
+                }
+
+            }
+        } catch (sqlException: SQLException) {
+            sqlException.printStackTrace()
+        }
+    }
+
+    @FXML
+    fun onClickNewButton() {
+        reset()
+    }
+
+    fun onClickTextField() {
+        schooSaveButton.isDisable = false
+        schoolUpdateButton.isDisable = false
+        schoolDelButton.isDisable = false
+    }
+
+    fun availableSchoolEntrySelectData() {
+        val selectedSchooEntry: School = schoolTableView.selectionModel.selectedItem
+        val number: Int = schoolTableView.selectionModel.selectedIndex
+        if ((number - 1) < -1) {
+            return
+        }
+        schoolName.text = selectedSchooEntry.schoolName
+        schoolType.value = selectedSchooEntry.schoolType.toString()
+        city.text = selectedSchooEntry.city
+        country.value = selectedSchooEntry.country.toString()
+        contactNumber.text = selectedSchooEntry.contactNumber
+        address.text = selectedSchooEntry.schoolAddress
+        email.text = selectedSchooEntry.emailAddress
+        fax.text = selectedSchooEntry.fax
+        website.text = selectedSchooEntry.schoolWebsite
+    }
+
+    fun availableSchoolEntryList() {
+        schoolEntryDataList = schoolEntryListData()
+
+        schoolTableNameColumn.cellValueFactory = PropertyValueFactory("schoolName")
+        schoolTableTypeColumn.cellValueFactory = PropertyValueFactory("schoolType")
+        tableCityColumn.cellValueFactory = PropertyValueFactory("city")
+        tableCountryColumn.cellValueFactory = PropertyValueFactory("country")
+        tableContactNoColumn.cellValueFactory = PropertyValueFactory("contactNumber")
+        tableAddressColumn.cellValueFactory = PropertyValueFactory("schoolAddress")
+        tableEmailColumn.cellValueFactory = PropertyValueFactory("emailAddress")
+        tableFaxColumn.cellValueFactory = PropertyValueFactory("fax")
+        tableWebsiteColumn.cellValueFactory = PropertyValueFactory("schoolWebsite")
+        schoolRowNumberColumn.setCellValueFactory { SimpleIntegerProperty(it.value.schoolRowNumber).asObject() }
+        schoolTableView.items = schoolEntryDataList
+
+    }
+
+    private fun schoolEntryListData(): ObservableList<School> {
+        val schoolTypeListData = FXCollections.observableArrayList<School>()
+        val connectToDb = SchoolDb()
+        val selectQuery = "SELECT * FROM school_data"
+
+        connection = connectToDb.connectionDb()!!
+
+        try {
+            //var schoolTypeData: SchoolType
+            preparedStatement = connection.prepareStatement(selectQuery)
+            resultSet = preparedStatement.executeQuery()
+
+            var schoolRowNumber = 1
+            while (resultSet.next()) {
+                val columnSchoolName = resultSet.getString("school_name")
+                val columnSchoolType = resultSet.getString("school_typ")
+                val columnSchoolCity = resultSet.getString("city")
+                val columnSchoolCountry = resultSet.getString("country_name")
+                val columnSchoolContactNo = resultSet.getString("contact_number")
+                val columnSchoolAddress = resultSet.getString("address")
+                val columnSchoolEmail = resultSet.getString("email")
+                val columnSchoolFax = resultSet.getString("fax")
+                val columnSchoolWebsite = resultSet.getString("website")
+                val schoolEntryData = School(
+                    schoolRowNumber,
+                    columnSchoolName,
+                    columnSchoolType,
+                    columnSchoolCity,
+                    columnSchoolCountry,
+                    columnSchoolContactNo,
+                    columnSchoolAddress,
+                    columnSchoolEmail,
+                    columnSchoolFax,
+                    columnSchoolWebsite
+                )
+
+                schoolTypeListData.add(schoolEntryData)
+                schoolRowNumber++
+            }
+        } catch (sqlException: SQLException) {
+            sqlException.printStackTrace()
+        }
+        return schoolTypeListData
+    }
+
+    private fun reset() {
+        schoolName.text = ""
+        email.text = ""
+        city.text = ""
+        fax.text = ""
+        contactNumber.text = ""
+        country.selectionModel.clearSelection()
+        website.text = ""
+        address.text = ""
+        schoolType.selectionModel.clearSelection()
+        schooSaveButton.isDisable = true
+        schoolDelButton.isDisable = true
+        schoolUpdateButton.isDisable = true
+    }
+
+    private fun clearTextFieldData() {
+        schoolName.clear()
+        email.clear()
+        city.clear()
+        fax.clear()
+        contactNumber.clear()
+        country.selectionModel.clearSelection()
+        website.clear()
+        address.clear()
+        schoolType.selectionModel.clearSelection()
+    }
+
+    override fun initialize(p0: URL?, p1: ResourceBundle?) {
+        //
+        availableSchoolEntryList()
+    }
+}

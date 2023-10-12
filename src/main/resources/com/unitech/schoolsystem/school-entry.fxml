@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="572.0" prefWidth="1075.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.unitech.schoolsystem.SchoolEntryController">
+   <AnchorPane layoutX="193.0" layoutY="21.0" prefHeight="53.0" prefWidth="978.0" styleClass="menuBar" stylesheets="@design.css" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <Label layoutX="428.0" layoutY="12.0" text="School Entry" textFill="WHITE" AnchorPane.bottomAnchor="11.0" AnchorPane.leftAnchor="428.0" AnchorPane.rightAnchor="427.0" AnchorPane.topAnchor="12.0">
+         <font>
+            <Font name="Franklin Gothic Demi Cond" size="26.0" />
+         </font>
+      </Label>
+   </AnchorPane>
+   <AnchorPane layoutX="14.0" layoutY="53.0" prefHeight="481.0" prefWidth="1075.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="53.0">
+      <Label layoutX="19.0" layoutY="7.0" text="School Information">
+         <font>
+            <Font name="Footlight MT Light" size="20.0" />
+         </font>
+      </Label>
+      <AnchorPane layoutX="8.0" layoutY="27.0" prefHeight="318.0" prefWidth="804.0" styleClass="google-text-field" stylesheets="@design.css">
+         <Label layoutX="11.0" layoutY="10.0" text="School Name">
+            <font>
+               <Font name="Franklin Gothic Demi Cond" size="16.0" />
+            </font>
+         </Label>
+         <TextField fx:id="schoolName" layoutX="131.0" layoutY="7.0" onMouseClicked="#onClickTextField" prefHeight="25.0" prefWidth="288.0" />
+         <Label layoutX="11.0" layoutY="41.0" text="School Type">
+            <font>
+               <Font name="Franklin Gothic Demi Cond" size="16.0" />
+            </font>
+         </Label>
+         <Label layoutX="11.0" layoutY="74.0" text="City">
+            <font>
+               <Font name="Franklin Gothic Demi Cond" size="16.0" />
+            </font>
+         </Label>
+         <TextField fx:id="city" layoutX="131.0" layoutY="71.0" prefHeight="25.0" prefWidth="135.0" />
+         <Label layoutX="11.0" layoutY="104.0" text="Country">
+            <font>
+               <Font name="Franklin Gothic Demi Cond" size="16.0" />
+            </font>
+         </Label>
+         <Label layoutX="11.0" layoutY="144.0" text="Address">
+            <font>
+               <Font name="Franklin Gothic Demi Cond" size="16.0" />
+            </font>
+         </Label>
+         <Label layoutX="11.0" layoutY="182.0" text="Contact No.">
+            <font>
+               <Font name="Franklin Gothic Demi Cond" size="16.0" />
+            </font>
+         </Label>
+         <TextField fx:id="contactNumber" layoutX="131.0" layoutY="179.0" prefHeight="25.0" prefWidth="150.0" />
+         <Label layoutX="11.0" layoutY="212.0" text="Fax">
+            <font>
+               <Font name="Franklin Gothic Demi Cond" size="16.0" />
+            </font>
+         </Label>
+         <TextField fx:id="fax" layoutX="131.0" layoutY="209.0" prefHeight="25.0" prefWidth="150.0" />
+         <Label layoutX="11.0" layoutY="244.0" text="Email">
+            <font>
+               <Font name="Franklin Gothic Demi Cond" size="16.0" />
+            </font>
+         </Label>
+         <TextField fx:id="email" layoutX="131.0" layoutY="241.0" prefHeight="25.0" prefWidth="236.0" />
+         <Label layoutX="11.0" layoutY="276.0" text="Website">
+            <font>
+               <Font name="Franklin Gothic Demi Cond" size="16.0" />
+            </font>
+         </Label>
+         <TextField fx:id="website" layoutX="131.0" layoutY="273.0" prefHeight="25.0" prefWidth="279.0" />
+         <ComboBox fx:id="schoolType" layoutX="131.0" layoutY="38.0" onMouseClicked="#onClickSchoolTypeComboBox" prefWidth="150.0" promptText="Select here" />
+         <ComboBox fx:id="country" layoutX="131.0" layoutY="101.0" onMouseClicked="#onClickCountryDropDown" prefWidth="150.0" promptText="Select here" />
+         <TextArea fx:id="address" layoutX="131.0" layoutY="135.0" prefHeight="37.0" prefWidth="279.0" />
+         <ImageView fx:id="schoolImage" fitHeight="150.0" fitWidth="200.0" layoutX="535.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true" />
+         <Button fx:id="browseButton" layoutX="534.0" layoutY="163.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="200.0" styleClass="getDataButton" stylesheets="@design.css" text="Browse...">
+            <font>
+               <Font size="15.0" />
+            </font>
+         </Button>
+         <Button fx:id="removeButton" layoutX="534.0" layoutY="207.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="200.0" styleClass="deleteButton" stylesheets="@design.css" text="Remove">
+            <font>
+               <Font size="15.0" />
+            </font>
+         </Button>
+      </AnchorPane>
+      <AnchorPane layoutX="865.0" layoutY="47.0" prefHeight="200.0" prefWidth="135.0" styleClass="button-pane" stylesheets="@design.css">
+         <Button fx:id="schoolNewButton" layoutX="14.0" layoutY="9.0" mnemonicParsing="false" onAction="#onClickNewButton" prefHeight="37.0" prefWidth="108.0" styleClass="newButton" stylesheets="@design.css" text="New">
+            <font>
+               <Font name="Franklin Gothic Demi" size="18.0" />
+            </font>
+         </Button>
+         <Button fx:id="schooSaveButton" layoutX="14.0" layoutY="54.0" mnemonicParsing="false" onAction="#onClickSchoolSaveButton" prefHeight="37.0" prefWidth="108.0" styleClass="saveButton" stylesheets="@design.css" text="Save">
+            <font>
+               <Font name="Franklin Gothic Demi" size="18.0" />
+            </font>
+         </Button>
+         <Button fx:id="schoolDelButton" layoutX="14.0" layoutY="100.0" mnemonicParsing="false" onAction="#onClickSchoolDeleteButton" prefHeight="37.0" prefWidth="108.0" styleClass="deleteButton" stylesheets="@design.css" text="Delete">
+            <font>
+               <Font name="Franklin Gothic Demi" size="18.0" />
+            </font>
+         </Button>
+         <Button fx:id="schoolUpdateButton" layoutX="14.0" layoutY="143.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="108.0" styleClass="updateButton" stylesheets="@design.css" text="Update">
+            <font>
+               <Font name="Franklin Gothic Demi" size="18.0" />
+            </font>
+         </Button>
+      </AnchorPane>
+      <AnchorPane layoutX="5.0" layoutY="352.0" prefHeight="167.0" prefWidth="1069.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="2.0" AnchorPane.rightAnchor="1.0" AnchorPane.topAnchor="352.0">
+         <children>
+            <TableView fx:id="schoolTableView" onMouseClicked="#availableSchoolEntrySelectData" prefHeight="159.0" prefWidth="1069.0" AnchorPane.bottomAnchor="2.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <columns>
+                  <TableColumn fx:id="schoolRowNumberColumn" prefWidth="28.0" />
+                  <TableColumn fx:id="schoolTableNameColumn" prefWidth="167.0" text="School Name" />
+                  <TableColumn fx:id="schoolTableTypeColumn" prefWidth="108.0" text="School Type" />
+                  <TableColumn fx:id="tableCityColumn" prefWidth="109.0" text="City" />
+                  <TableColumn fx:id="tableCountryColumn" prefWidth="134.0" text="Country" />
+                  <TableColumn fx:id="tableAddressColumn" prefWidth="151.0" text="Address" />
+                  <TableColumn fx:id="tableContactNoColumn" prefWidth="108.0" text="Contact No." />
+                  <TableColumn fx:id="tableFaxColumn" prefWidth="108.0" text="Fax" />
+                  <TableColumn fx:id="tableEmailColumn" prefWidth="108.0" text="Email" />
+                  <TableColumn fx:id="tableWebsiteColumn" prefWidth="108.0" text="Website" />
+               </columns>
+            </TableView>
+         </children>
+      </AnchorPane>
+   </AnchorPane>
+</AnchorPane>

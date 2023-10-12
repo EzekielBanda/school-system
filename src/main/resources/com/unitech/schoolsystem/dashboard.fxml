@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="574.0" prefWidth="816.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.unitech.schoolsystem.DashboardController">
+   <children>
+      <MenuBar fx:id="menu" layoutX="10.0" layoutY="4.0" prefHeight="35.0" prefWidth="816.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <menus>
+            <Menu fx:id="masterEntry" mnemonicParsing="false" text="Master Entry">
+               <items>
+                  <MenuItem fx:id="schoolEntry" mnemonicParsing="false" onAction="#onSelectSchoolEntry" text="School Entry" />
+                  <MenuItem fx:id="schoolType" mnemonicParsing="false" onAction="#onSelectSchoolTypeEntry" text="School Type" />
+                  <MenuItem fx:id="classType" mnemonicParsing="false" onAction="#onSelectClassType" text="Class Type" />
+                  <MenuItem fx:id="classEntry" mnemonicParsing="false" onAction="#onSelectClassEntry" text="Class Entry" />
+                  <MenuItem fx:id="sectionEntry" mnemonicParsing="false" onAction="#onSelectSectionEntry" text="Section Entry" />
+                  <MenuItem fx:id="classSection" mnemonicParsing="false" onAction="#onSelectClassSection" text="Class Sections" />
+                  <MenuItem mnemonicParsing="false" text="Session Entry" />
+                  <MenuItem fx:id="employeeDepartment" mnemonicParsing="false" onAction="#onSelectEmployeeDepartment" text="Employee Departments" />
+                  <MenuItem fx:id="employeeDesignation" mnemonicParsing="false" onAction="#onSelectEmployeeDesignation" text="Employee Designations" />
+                  <MenuItem fx:id="feeTypes" mnemonicParsing="false" onAction="#onSelectFeeType" text="Fee Types" />
+                  <MenuItem fx:id="schoolFeesEntry" mnemonicParsing="false" onAction="#onSelectSchoolFeeEntry" text="School Fees Entry" />
+                  <MenuItem mnemonicParsing="false" text="Subject Entry" />
+                  <MenuItem mnemonicParsing="false" text="Grading Levels" />
+                  <MenuItem mnemonicParsing="false" text="Exam Groups" />
+                  <MenuItem mnemonicParsing="false" text="Book Supplier" />
+                  <MenuItem mnemonicParsing="false" text="Book Classification" />
+                  <MenuItem mnemonicParsing="false" text="Books Category" />
+                  <MenuItem mnemonicParsing="false" text="Book Entry" />
+                  <MenuItem mnemonicParsing="false" text="Student Documents" />
+               </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Users">
+               <items>
+                  <MenuItem mnemonicParsing="false" text="User Registrations" />
+                  <MenuItem mnemonicParsing="false" text="User Grants" />
+               </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Students">
+               <items>
+                  <MenuItem mnemonicParsing="false" text="About" />
+               </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Library">
+               <items>
+                  <MenuItem mnemonicParsing="false" text="About" />
+               </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Examination">
+               <items>
+                  <MenuItem mnemonicParsing="false" text="About" />
+               </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Employees">
+               <items>
+                  <MenuItem mnemonicParsing="false" text="About" />
+               </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Transactions">
+               <items>
+                  <MenuItem mnemonicParsing="false" text="About" />
+               </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Tools">
+               <items>
+                  <MenuItem mnemonicParsing="false" text="About" />
+               </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Reports">
+               <items>
+                  <MenuItem mnemonicParsing="false" text="About" />
+               </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="SMS">
+               <items>
+                  <MenuItem mnemonicParsing="false" text="About" />
+               </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Recovery">
+               <items>
+                  <MenuItem mnemonicParsing="false" text="About" />
+               </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="About Me">
+               <items>
+                  <MenuItem mnemonicParsing="false" text="About" />
+               </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Logout">
+               <items>
+                  <MenuItem mnemonicParsing="false" text="About" />
+               </items>
+            </Menu>
+         </menus>
+         <padding>
+            <Insets left="10.0" top="10.0" />
+         </padding>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+      </MenuBar>
+   </children>
+</AnchorPane>

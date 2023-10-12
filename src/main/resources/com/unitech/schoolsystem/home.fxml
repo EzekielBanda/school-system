@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="503.0" prefWidth="767.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.unitech.schoolsystem.HelloController">
+    <AnchorPane fx:id="menuBar" prefHeight="47.0" prefWidth="767.0" stylesheets="@design.css">
+        <styleClass>
+            <String fx:value="menuBar" />
+        </styleClass>
+        <Label layoutX="29.0" layoutY="10.0" styleClass="label-title" stylesheets="@design.css" text="School Management System" textFill="#f5f5f5">
+            <font>
+                <Font name="Lucida Sans Demibold Roman" size="24.0" />
+            </font>
+        </Label>
+    </AnchorPane>
+    <Label layoutX="420.0" layoutY="109.0" text="Login">
+        <font>
+            <Font name="System Bold" size="20.0" />
+        </font>
+    </Label>
+    <ImageView fitHeight="233.0" fitWidth="279.0" layoutX="53.0" layoutY="139.0" pickOnBounds="true" preserveRatio="true" />
+    <Label layoutX="420.0" layoutY="168.0" text="Username">
+        <font>
+            <Font name="Gill Sans MT" size="23.0" />
+        </font>
+    </Label>
+    <TextField fx:id="username" layoutX="420.0" layoutY="208.0" prefHeight="26.0" prefWidth="279.0" promptText="Enter Username here" styleClass="textField" stylesheets="@design.css" />
+    <Label layoutX="420.0" layoutY="252.0" text="Password">
+        <font>
+            <Font name="Gill Sans MT" size="23.0" />
+        </font>
+    </Label>
+    <Button fx:id="loginButton" layoutX="420.0" layoutY="353.0" mnemonicParsing="false" onAction="#onClickLoginButton" prefHeight="39.0" prefWidth="95.0" styleClass="login-button" stylesheets="@design.css" text="Login">
+        <font>
+            <Font size="14.0" />
+        </font>
+    </Button>
+    <Button fx:id="forgetPasswordButton" layoutX="549.0" layoutY="353.0" mnemonicParsing="false" onAction="#onClickForgotPasswordButton" prefHeight="39.0" prefWidth="155.0" styleClass="forget-password-button" stylesheets="@design.css" text="Reset Password">
+        <font>
+            <Font size="14.0" />
+        </font>
+    </Button>
+    <PasswordField fx:id="password" layoutX="420.0" layoutY="289.0" prefHeight="26.0" prefWidth="279.0" promptText="Enter Password here" styleClass="textField" stylesheets="@design.css" />
+</Pane>

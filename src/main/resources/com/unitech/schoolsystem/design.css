@@ -1,0 +1,145 @@
+
+.menuBar {
+    -fx-background-color: #23bdd4;
+
+}
+.label-title {
+    -fx-text-color: #ffffff important;
+
+}
+.textField {
+    -fx-background-color: transparent;
+    -fx-border-color: #92D1EEFF;
+    -fx-border-width: 0px 0px 1px 0px;
+    -fx-font-size: 15px;
+}
+.textField:focused {
+    -fx-border-color: #198ef5;
+    -fx-border-width: 0px 0px 2px 0px;
+}
+.login-button {
+    -fx-background-color: #198ef5;
+    -fx-background-radius: 10px 10px 10px 10px;
+    -fx-cursor: hand;
+    -fx-font-family: "Tahoma";
+    -fx-text-fill: #fff;
+    -fx-font-weight: bold;
+    -fx-font-size: 13px;
+}
+.login-button:hover {
+    -fx-background-color: linear-gradient(to bottom, #8ce3f3, #198ef5);
+}
+.forget-password-button {
+    -fx-background-color: #bd5e0a;
+    -fx-background-radius: 10px 10px 10px 10px;
+    -fx-cursor: hand;
+    -fx-font-family: "Tahoma";
+    -fx-text-fill: #fff;
+    -fx-font-weight: bold;
+    -fx-font-size: 13px;
+}
+.forget-password-button:hover {
+    -fx-background-color: linear-gradient(to bottom, #f39b54, #bd5e0a);
+}
+.white-bg {
+    -fx-background-color: #fff;
+    -fx-background-radius: 20px;
+}
+
+.google-text-field {
+    -fx-border-color: rgba(137, 161, 129, 0.9);
+    -fx-border-width: px;
+    -fx-padding: 4px;
+}
+
+.button-pane {
+    -fx-border-color: rgba(137, 161, 129, 0.9);
+    -fx-border-width: 2px;
+    -fx-padding: 4px;
+}
+
+.horizontal-button-pane {
+    -fx-border-color: rgba(137, 161, 129, 0.9);
+    -fx-border-width: 2px;
+}
+.newButton {
+    -fx-background-color: #4CAF50;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-font-family: "Arial";
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+}
+.newButton:hover{
+    -fx-background-color: linear-gradient(to bottom, #4CAF50, #75f57b);
+}
+.saveButton {
+    -fx-background-color: #2196F3;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-font-family: "Arial";
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+}
+
+.saveButton:hover{
+    -fx-background-color: linear-gradient(to bottom, #2196F3, #67abe7);
+}
+.deleteButton {
+    -fx-background-color: #F44336;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-font-family: "Arial";
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+}
+
+.deleteButton:hover{
+    -fx-background-color: linear-gradient(to bottom, #F44336, #f3786f);
+}
+.updateButton {
+    -fx-background-color: #FF9800;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-cursor: hand;
+    -fx-font-family: "Arial";
+    -fx-font-weight: bold;
+}
+
+.updateButton:hover{
+    -fx-background-color: linear-gradient(to bottom, #FF9800, #efbb78);
+}
+
+.getDataButton {
+    -fx-background-color: rgba(194, 25, 246, 0.98);
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-cursor: hand;
+    -fx-font-family: "Arial";
+    -fx-font-weight: bold;
+}
+
+.getDataButton:hover{
+    -fx-background-color: linear-gradient(to bottom, rgba(194, 25, 246, 0.98), rgba(192, 124, 215, 0.98));
+}
+
+.my-table-view {
+    -fx-background-color: #F0F0F0;
+    -fx-text-fill: #333;
+}
+
+.my-table-view .column-header-background{
+    -fx-background-color: #0077CC;
+}
+
+.my-table-view .column-header {
+    -fx-text-fill: #FFF;
+}
+
+.my-table-view .table-row {
+    -fx-background-color: #E0E0E0;
+}
+
+.my-table-view .table-row:selected {
+    -fx-background-color: #0077CC;
+}
