@@ -255,29 +255,29 @@ class SchoolEntryController : Initializable {
 
     fun onClickSchoolDeleteButton() {
 
-        val school =  schoolName.text
-        val type = schoolType.selectionModel.selectedItem
-        val schoolCity = city.text
-        val schoolCountry = country.selectionModel.selectedItem
-        val contactNum = contactNumber.text
-        val schoolAddress = address.text
-        val schoolEmail = email.text
-        val schoolFax = fax.text
-        val schoolWeb = website.text
+        val sName =  schoolName.text
+        val sType = schoolType.selectionModel.selectedItem
+        val sCity = city.text
+        val sCountry = country.selectionModel.selectedItem
+        val sContactNumber = contactNumber.text
+        val sAddress = address.text
+        val sEmail = email.text
+        val sFax = fax.text
+        val sWeb = website.text
 
         val dbConnection = SchoolDb()
         val deleteSchoolQuery = "" +
                 " DELETE FROM school_data " +
-                " WHERE school_typ = '$type' AND city = '$city' "
+                " WHERE school_typ = '$schoolType' AND city = '$city' "
 
         connection = dbConnection.connectionDb()!!
 
 
         try {
             //Check Empty Fields
-            if (school.isEmpty() || schoolCity.isEmpty() ||
-                contactNum.isEmpty() || schoolAddress.isEmpty() ||
-                schoolEmail.isEmpty() || schoolFax.isEmpty() || schoolWeb.isEmpty()
+            if (sName.isEmpty() || sCity.isEmpty() ||
+                sContactNumber.isEmpty() || sAddress.isEmpty() ||
+                sEmail.isEmpty() || sFax.isEmpty() || sWeb.isEmpty()
             ) {
                 schoolAlert = Alert(Alert.AlertType.ERROR)
                 schoolAlert.title = "Empty School Type"
@@ -290,7 +290,7 @@ class SchoolEntryController : Initializable {
                 val schoolDataCheck =
                     "SELECT school_typ, city " +
                             " FROM school_data " +
-                            " WHERE school_typ = '$type' AND city = '$city' "
+                            " WHERE school_typ = '$schoolType' AND city = '$city' "
                 preparedStatement = connection.prepareStatement(schoolDataCheck)
                 resultSet = preparedStatement.executeQuery()
 
@@ -342,20 +342,20 @@ class SchoolEntryController : Initializable {
     }
 
     fun availableSchoolEntrySelectData() {
-        val selectedSchooEntry: School = schoolTableView.selectionModel.selectedItem
+        val selectedSchoolEntry: School = schoolTableView.selectionModel.selectedItem
         val number: Int = schoolTableView.selectionModel.selectedIndex
         if ((number - 1) < -1) {
             return
         }
-        schoolName.text = selectedSchooEntry.schoolName
-        schoolType.value = selectedSchooEntry.schoolType.toString()
-        city.text = selectedSchooEntry.city
-        country.value = selectedSchooEntry.country.toString()
-        contactNumber.text = selectedSchooEntry.contactNumber
-        address.text = selectedSchooEntry.schoolAddress
-        email.text = selectedSchooEntry.emailAddress
-        fax.text = selectedSchooEntry.fax
-        website.text = selectedSchooEntry.schoolWebsite
+        schoolName.text = selectedSchoolEntry.schoolName
+        schoolType.value = selectedSchoolEntry.schoolType.toString()
+        city.text = selectedSchoolEntry.city
+        country.value = selectedSchoolEntry.country.toString()
+        contactNumber.text = selectedSchoolEntry.contactNumber
+        address.text = selectedSchoolEntry.schoolAddress
+        email.text = selectedSchoolEntry.emailAddress
+        fax.text = selectedSchoolEntry.fax
+        website.text = selectedSchoolEntry.schoolWebsite
     }
 
     fun availableSchoolEntryList() {
