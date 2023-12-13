@@ -175,24 +175,26 @@ class SchoolEntryController : Initializable {
                 "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)"
         connection = connectToDb.connectionDb()!!
 
-        val school =  schoolName.text
-        val type = schoolType.selectionModel.selectedItem
-        val schoolCity = city.text
-        val schoolCountry = country.selectionModel.selectedItem
-        val contactNum = contactNumber.text
-        val schoolAddress = address.text
-        val schoolEmail = email.text
-        val schoolFax = fax.text
-        val schoolWeb = website.text
+//        val school =  schoolName.text
+//        val type = schoolType.selectionModel.selectedItem
+//        val schoolCity = city.text
+//        val schoolCountry = country.selectionModel.selectedItem
+//        val contactNum = contactNumber.text
+//        val schoolAddress = address.text
+//        val schoolEmail = email.text
+//        val schoolFax = fax.text
+//        val schoolWeb = website.text
 
         try {
 
-            if (school.isEmpty() ||
-                schoolCity.isEmpty() ||
-                contactNum.isEmpty() ||
-                schoolAddress.isEmpty() ||
-                schoolEmail.isEmpty() ||
-                schoolFax.isEmpty() || schoolWeb.isEmpty()
+            val schoolInfo = extractSchoolInfo()
+
+            if (schoolInfo.schoolName.isEmpty() ||
+                schoolInfo.city.isEmpty() ||
+                schoolInfo.contactNumber.isEmpty() ||
+                schoolInfo.schoolAddress.isEmpty() ||
+                schoolInfo.emailAddress.isEmpty() ||
+                schoolInfo.fax.isEmpty() || schoolInfo.schoolWebsite.isEmpty()
             ) {
 
                 // Alert Box
@@ -206,7 +208,7 @@ class SchoolEntryController : Initializable {
 
                 // Prevent Addition of the same School Type
                 val schoolTypeCheck = "SELECT school_typ, city FROM school_data " +
-                        "WHERE school_typ = '$type' AND city = '$schoolCity'"
+                        "WHERE school_typ = '${schoolInfo.schoolType}' AND city = '${schoolInfo.city}'"
                 preparedStatement = connection.prepareStatement(schoolTypeCheck)
                 resultSet = preparedStatement.executeQuery()
                 if (resultSet.next()) {
@@ -218,17 +220,19 @@ class SchoolEntryController : Initializable {
                             "in the same city"
                     schoolAlert.showAndWait()
                 } else {
+                    val newSchool = extractSchoolInfo()
+
 
                     preparedStatement = connection.prepareStatement(schoolEntryQuery)
-                    preparedStatement.setString(1, school)
-                    preparedStatement.setString(2, type)
-                    preparedStatement.setString(3, schoolCity)
-                    preparedStatement.setString(4, schoolCountry)
-                    preparedStatement.setString(5, contactNum)
-                    preparedStatement.setString(6, schoolAddress)
-                    preparedStatement.setString(7, schoolEmail)
-                    preparedStatement.setString(8, schoolFax)
-                    preparedStatement.setString(9, schoolWeb)
+                    preparedStatement.setString(1, newSchool.schoolName)
+                    preparedStatement.setString(2, newSchool.schoolType)
+                    preparedStatement.setString(3, newSchool.city)
+                    preparedStatement.setString(4, newSchool.country)
+                    preparedStatement.setString(5, newSchool.contactNumber)
+                    preparedStatement.setString(6, newSchool.schoolAddress)
+                    preparedStatement.setString(7, newSchool.emailAddress)
+                    preparedStatement.setString(8, newSchool.fax)
+                    preparedStatement.setString(9, newSchool.schoolWebsite)
 
                     preparedStatement.executeUpdate()
 
@@ -252,82 +256,87 @@ class SchoolEntryController : Initializable {
 
     }
 
+    private fun extractSchoolInfo(): School {
+        return School(
+            schoolName = schoolName.text,
+            schoolType = schoolType.selectionModel.selectedItem,
+            city = city.text,
+            country = country.selectionModel.selectedItem,
+            schoolAddress = address.text,
+            contactNumber = contactNumber.text,
+            fax = fax.text,
+            emailAddress = email.text,
+            schoolWebsite = website.text
+        )
+    }
+
 
     fun onClickSchoolDeleteButton() {
-
-        val sName =  schoolName.text
-        val sType = schoolType.selectionModel.selectedItem
-        val sCity = city.text
-        val sCountry = country.selectionModel.selectedItem
-        val sContactNumber = contactNumber.text
-        val sAddress = address.text
-        val sEmail = email.text
-        val sFax = fax.text
-        val sWeb = website.text
-
-        val dbConnection = SchoolDb()
-        val deleteSchoolQuery = "" +
-                " DELETE FROM school_data " +
-                " WHERE school_typ = '$schoolType' AND city = '$city' "
-
-        connection = dbConnection.connectionDb()!!
-
+        val schoolInfo = extractSchoolInfo()
 
         try {
-            //Check Empty Fields
-            if (sName.isEmpty() || sCity.isEmpty() ||
-                sContactNumber.isEmpty() || sAddress.isEmpty() ||
-                sEmail.isEmpty() || sFax.isEmpty() || sWeb.isEmpty()
+            // Check Empty Fields
+            if (schoolInfo.schoolName.isEmpty() ||
+                schoolInfo.city.isEmpty() ||
+                schoolInfo.contactNumber.isEmpty() ||
+                schoolInfo.schoolAddress.isEmpty() ||
+                schoolInfo.emailAddress.isEmpty() ||
+                schoolInfo.fax.isEmpty() || schoolInfo.schoolWebsite.isEmpty()
             ) {
-                schoolAlert = Alert(Alert.AlertType.ERROR)
-                schoolAlert.title = "Empty School Type"
-                schoolAlert.headerText = null
-                schoolAlert.contentText = "Please Select School to delete"
-                schoolAlert.showAndWait()
+                showAlert("Empty School Type", "Please Select School to delete")
             } else {
-
-                // Prevent Addition of the same School Type
                 val schoolDataCheck =
-                    "SELECT school_typ, city " +
-                            " FROM school_data " +
-                            " WHERE school_typ = '$schoolType' AND city = '$city' "
+                    "SELECT school_typ, city FROM school_data " +
+                            " WHERE school_typ = '${schoolInfo.schoolType}' AND city = '${schoolInfo.city}' "
                 preparedStatement = connection.prepareStatement(schoolDataCheck)
                 resultSet = preparedStatement.executeQuery()
 
                 if (resultSet.next()) {
-
-                    schoolAlert = Alert(Alert.AlertType.CONFIRMATION)
-                    schoolAlert.title = "Delete School"
-                    schoolAlert.headerText = "You want to delete School"
-                    schoolAlert.contentText = "Are you sure?"
-
-                    val option: Optional<ButtonType> = schoolAlert.showAndWait()
-                    if (option.get() == ButtonType.OK) {
-                        statement = connection.createStatement()
-                        statement.executeUpdate(deleteSchoolQuery)
-
-                        schoolAlert = Alert(Alert.AlertType.INFORMATION);
-                        schoolAlert.title = "Deleted School"
-                        schoolAlert.headerText = null;
-                        schoolAlert.contentText = "Successfully Deleted";
-                        schoolAlert.showAndWait()
-
-                        availableSchoolEntryList()
-                        clearTextFieldData()
-                    }
+                    confirmAndDeleteSchool()
                 } else {
-                    schoolAlert = Alert(Alert.AlertType.ERROR)
-                    schoolAlert.title = "Existed School Type"
-                    schoolAlert.headerText = null
-                    schoolAlert.contentText = "School with that data does not Exists"
-                    schoolAlert.showAndWait()
+                    showAlert("Existed School Type", "School with that data does not exist")
                     clearTextFieldData()
                 }
-
             }
         } catch (sqlException: SQLException) {
             sqlException.printStackTrace()
         }
+    }
+
+    private fun confirmAndDeleteSchool() {
+        val deleteSchoolQuery = "" +
+                " DELETE FROM school_data " +
+                " WHERE school_typ = ? AND city = ?"
+
+        schoolAlert = Alert(Alert.AlertType.CONFIRMATION)
+        schoolAlert.title = "Delete School"
+        schoolAlert.headerText = "You want to delete School"
+        schoolAlert.contentText = "Are you sure?"
+
+        val option: Optional<ButtonType> = schoolAlert.showAndWait()
+        if (option.get() == ButtonType.OK) {
+            try {
+                preparedStatement = connection.prepareStatement(deleteSchoolQuery)
+                preparedStatement.setString(1, schoolType.selectionModel.selectedItem)
+                preparedStatement.setString(2, city.text)
+
+                preparedStatement.executeUpdate()
+
+                showAlert("Deleted School", "Successfully Deleted")
+                availableSchoolEntryList()
+                clearTextFieldData()
+            } catch (sqlException: SQLException) {
+                sqlException.printStackTrace()
+            }
+        }
+    }
+
+    private fun showAlert(title: String, content: String) {
+        schoolAlert = Alert(Alert.AlertType.ERROR)
+        schoolAlert.title = title
+        schoolAlert.headerText = null
+        schoolAlert.contentText = content
+        schoolAlert.showAndWait()
     }
 
     @FXML
